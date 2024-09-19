@@ -1,4 +1,3 @@
-import org.openapitools.generator.gradle.plugin.tasks.GenerateTask
 import org.openapitools.generator.gradle.plugin.tasks.ValidateTask
 
 plugins {
@@ -13,7 +12,7 @@ plugins {
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
-        group = "com.example"
+        group = "com.marukhan"
         version = "0.0.1"
     }
 }
@@ -33,19 +32,19 @@ dependencies {
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
+tasks.withType<Test> {
+    useJUnitPlatform()
+}
+
 kotlin {
     compilerOptions {
         freeCompilerArgs.addAll("-Xjsr305=strict")
     }
 }
 
-tasks.withType<Test> {
-    useJUnitPlatform()
-}
-
+//openapi
 kotlin.sourceSets["main"].kotlin.srcDir("${layout.buildDirectory.get()}/openapi-generated/src/main/kotlin")
 
-//openapi
 val openApiConfig = mapOf(
     "serializationLibrary" to "jackson",
         "serializableModel" to "true",
@@ -78,29 +77,18 @@ val openApiImportMapping = mapOf(
 tasks.register <ValidateTask>( "validateSpec") {
     outputs.upToDateWhen { false }
     outputs.cacheIf { false }
-
-    inputSpec.set("$rootDir/petstore-v3.0-invalid.yaml")
-
+    inputSpec.set("${rootDir}/src/main/resources/openapi/organization-openapi-v1.0.yml")
     recommend.set(true)
 }
 
-tasks.register <GenerateTask>( "generateCodeBySpec") {
+// Generating code by a single specification
+openApiGenerate{
     id.set("request")
-    generatorName.set("kotlin-sping")
-    inputSpec.set("$rootDir/specs/petstore-v3.0.yaml")
-    outputDir.set("$buildDir/generated")
-    apiPackage.set("com.example.openapi.api.request")
+    generatorName.set("kotlin-spring")
+    inputSpec.set("${rootDir}/src/main/resources/openapi/organization-openapi-v1.0.yml")
+    outputDir.set("${layout.buildDirectory.get()}/openapi-generated/src/main/kotlin")
+    apiPackage.set("com.marukhan.openapi.api.request")
     configOptions.set(openApiConfig)
     typeMappings.set(openApiTypeMapping)
     importMappings.set(openApiImportMapping)
 }
-
-//openApiGenerate {
-//    generatorName.set("kotlin")
-//    inputSpec.set("$rootDir/specs/petstore-v3.0.yaml")
-//    outputDir.set("$buildDir/generated")
-//    apiPackage.set("org.openapi.example.api")
-//    invokerPackage.set("org.openapi.example.invoker")
-//    modelPackage.set("org.openapi.example.model")
-//    configOptions.put("dateLibrary", "java8")
-//}

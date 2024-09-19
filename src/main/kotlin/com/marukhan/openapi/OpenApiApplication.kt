@@ -1,4 +1,4 @@
-package com.example.openapi
+package com.marukhan.openapi
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
