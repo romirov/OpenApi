@@ -1,4 +1,4 @@
-openapi: 3.0.3
+openapi: 3.1.0
 info:
   title: UI-Backend Organization-Employees API
   description: API for interaction between frontend and backend
@@ -129,8 +129,7 @@ paths:
           description: ID of the organization that needs to be deleted
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
         '400':
           description: Invalid ID supplied
@@ -266,22 +265,20 @@ paths:
         - employee
       summary: Find Employee by ID
       description: Find Employee by ID
-      operationId: findEmployeeById
+      operationId: getEmployeeById
       parameters:
         - name: organizationId
           in: path
           description: ID of the organization
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
         - name: employeeId
           in: path
           description: ID of the employee
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
         '200':
           description: successful operation
@@ -305,15 +302,13 @@ paths:
           description: ID of the organization that needs to be deleted
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
         - name: employeeId
           in: path
           description: ID of the employee that needs to be deleted
           required: true
           schema:
-            type: integer
-            format: int64
+            type: string
       responses:
         '400':
           description: Invalid ID supplied
@@ -326,30 +321,34 @@ components:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
-          example: 10
+          type: string
+          nullable: false
+          example: b749d000-9a4f-4bb7-8235-3e47779df243
         organizationName:
           type: string
+          nullable: false
           description: Organization Name
           example: HHCorp
     Employee:
       type: object
       properties:
         id:
-          type: integer
-          format: int64
-          example: 100000
+          type: string
+          nullable: false
+          example: e07bb9d0-d3ef-4c66-9b7d-5b5ee6e47167
         organizationId:
-          type: integer
-          format: int64
-          example: 100000
+          type: string
+          nullable: false
+          example: b749d000-9a4f-4bb7-8235-3e47779df243
         firstName:
           type: string
+          nullable: false
           example: Test
         secondName:
           type: string
+          nullable: false
           example: De La Test
         jobTitle:
           type: string
+          nullable: false
           example: Boss
