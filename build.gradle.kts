@@ -2,10 +2,12 @@ import org.openapitools.generator.gradle.plugin.tasks.ValidateTask
 
 plugins {
     kotlin("jvm") version "1.9.25"
+    kotlin("kapt") version "2.0.20"
     kotlin("plugin.spring") version "1.9.25"
+    kotlin("plugin.jpa") version "1.9.25"
+
     id("org.springframework.boot") version "3.3.3"
     id("io.spring.dependency-management") version "1.1.6"
-    kotlin("plugin.jpa") version "1.9.25"
     id("org.openapi.generator") version "7.8.0"
 }
 
@@ -27,6 +29,9 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("jakarta.validation:jakarta.validation-api")
+    implementation("org.mapstruct:mapstruct:1.6.2")
+
+    kapt("org.mapstruct:mapstruct-processor:1.6.2")
 
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")

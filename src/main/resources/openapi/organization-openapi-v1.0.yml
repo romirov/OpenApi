@@ -50,6 +50,14 @@ paths:
       description: For valid response no need to specify parameters
       operationId: getOrganizations
       responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Organization'
         '404':
           description: organizations not found
     delete:
@@ -193,6 +201,14 @@ paths:
           in: path
           required: true
       responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Employee'
         '404':
           description: Employees not found
     delete:
