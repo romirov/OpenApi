@@ -24,6 +24,7 @@ repositories {
 }
 
 dependencies {
+    implementation(kotlin("stdlib-jdk8"))
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -34,9 +35,12 @@ dependencies {
     kapt("org.mapstruct:mapstruct-processor:1.6.2")
 
     runtimeOnly("org.postgresql:postgresql")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:postgresql")
 }
 
 tasks.withType<Test> {
@@ -53,35 +57,35 @@ kotlin {
 kotlin.sourceSets["main"].kotlin.srcDir("${layout.buildDirectory.get()}/openapi-generated/src/main/kotlin")
 
 val openApiConfig = mapOf(
-    "serializationLibrary" to "jackson",
-    "serializableModel" to "true",
-    "interfaceOnly" to "true",
-    "skipDefaultInterface" to "true",
-    "useTags" to "true",
-    "enumPropertyNaming" to "UPPERCASE",
-    "dateLibrary" to "java8",
-    "documentationProvider" to "source",
-    "useBeanValidation" to "true",
-    "performBeanValidation" to "true",
-    "library" to "spring-boot",
-    "exceptionHandler" to "false",
-    "supportFileToGenerate" to "ApiUtil",
-    "useSpringBoot3" to "true",
-    "useJakartaEe" to "true"
+        "serializationLibrary" to "jackson",
+        "serializableModel" to "true",
+        "interfaceOnly" to "true",
+        "skipDefaultInterface" to "true",
+        "useTags" to "true",
+        "enumPropertyNaming" to "UPPERCASE",
+        "dateLibrary" to "java8",
+        "documentationProvider" to "source",
+        "useBeanValidation" to "true",
+        "performBeanValidation" to "true",
+        "library" to "spring-boot",
+        "exceptionHandler" to "false",
+        "supportFileToGenerate" to "ApiUtil",
+        "useSpringBoot3" to "true",
+        "useJakartaEe" to "true"
 )
 
 val openApiTypeMapping = mapOf(
-    "java.time.OffsetDateTime" to "java.time.Instant",
-    "kotlin.Double" to "java.math.BigDecimal",
-    "kotlin.Float" to "java.math.BigDecimal"
+        "java.time.OffsetDateTime" to "java.time.Instant",
+        "kotlin.Double" to "java.math.BigDecimal",
+        "kotlin.Float" to "java.math.BigDecimal"
 )
 
 val openApiImportMapping = mapOf(
-    "java.time.OffsetDateTime" to "java.time.Instant",
+        "java.time.OffsetDateTime" to "java.time.Instant",
 )
 
 // Validating a single specification
-tasks.register <ValidateTask>( "validateSpec") {
+tasks.register<ValidateTask>("validateSpec") {
     outputs.upToDateWhen { false }
     outputs.cacheIf { false }
     inputSpec.set("${rootDir}/src/main/resources/openapi/organization-openapi-v1.0.yml")
@@ -89,7 +93,7 @@ tasks.register <ValidateTask>( "validateSpec") {
 }
 
 // Generating code by a single specification
-openApiGenerate{
+openApiGenerate {
     id.set("request")
     generatorName.set("kotlin-spring")
     inputSpec.set("${rootDir}/src/main/resources/openapi/organization-openapi-v1.0.yml")

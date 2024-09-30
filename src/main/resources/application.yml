@@ -2,7 +2,11 @@ spring:
   application:
     name: OpenApi
   datasource:
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: postgres
-    password: postgres
+    url: { POSTGRES_DB_URL }
+    username: { POSTGRES_DB_USERNAME }
+    password: { POSTGRES_DB_PASSWORD }
     driver-class-name: org.postgresql.Driver
+    jpa:
+      properties:
+        hibernate:
+          show_sql: true
