@@ -30,9 +30,9 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("jakarta.validation:jakarta.validation-api")
-    implementation("org.mapstruct:mapstruct:1.6.2")
-
-    kapt("org.mapstruct:mapstruct-processor:1.6.2")
+//    implementation("org.mapstruct:mapstruct:1.6.2")
+//
+//    kapt("org.mapstruct:mapstruct-processor:1.6.2")
 
     runtimeOnly("org.postgresql:postgresql")
 

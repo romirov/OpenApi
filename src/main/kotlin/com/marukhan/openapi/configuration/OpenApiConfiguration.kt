@@ -31,4 +31,10 @@ open class OpenApiConfiguration {
 
     @Bean
     open fun employeeService() = EmployeeService(employeeRepository, employeeMapper)
+
+    @Bean
+    open fun organizationMapper() = OrganizationMapper()
+
+    @Bean
+    open fun employeeMapper() = EmployeeMapper()
 }

@@ -164,8 +164,8 @@ paths:
             type: string
           in: path
           required: true
-        - name: secondName
-          description: Employee second name
+        - name: lastName
+          description: Employee last name
           schema:
             type: string
           in: path
@@ -253,8 +253,8 @@ paths:
             type: string
           in: path
           required: true
-        - name: secondName
-          description: Employee second name
+        - name: lastName
+          description: Employee last name
           schema:
             type: string
           in: path
@@ -360,7 +360,7 @@ components:
           type: string
           nullable: false
           example: Test
-        secondName:
+        lastName:
           type: string
           nullable: false
           example: De La Test

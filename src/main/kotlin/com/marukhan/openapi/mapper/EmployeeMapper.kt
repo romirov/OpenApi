@@ -2,27 +2,28 @@ package com.marukhan.openapi.mapper
 
 import com.marukhan.openapi.dao.EmployeeEntity
 import com.marukhan.openapi.model.request.Employee
-import org.mapstruct.Mapper
-import org.mapstruct.Mapping
-import org.mapstruct.Mappings
 
-@Mapper
-abstract class EmployeeMapper : OpenApiIdMapper() {
-    @Mappings(
-            Mapping(target = "id", source = "id", qualifiedByName = ["stringToUuid"]),
-            Mapping(target = "organizationId", source = "organizationId", qualifiedByName = ["stringToUuid"]),
-            Mapping(target = "firstName", source = "firstName"),
-            Mapping(target = "secondName", source = "secondName"),
-            Mapping(target = "jobTitle", source = "jobTitle")
-    )
-    abstract fun fromDto(employee: Employee): EmployeeEntity
+class EmployeeMapper : OpenApiIdMapper() {
+    fun fromDto(employee: Employee): EmployeeEntity {
+        requireNotNull(employee.id)
+        requireNotNull(employee.organizationId)
+        requireNotNull(employee.firstName)
+        requireNotNull(employee.lastName)
+        requireNotNull(employee.jobTitle)
+        return EmployeeEntity(
+            id = stringToUuid(employee.id),
+            organizationId = stringToUuid(employee.organizationId),
+            firstName = employee.firstName,
+            lastName = employee.lastName,
+            jobTitle = employee.jobTitle
+        )
+    }
 
-    @Mappings(
-            Mapping(target = "id", source = "id", qualifiedByName = ["uuidToString"]),
-            Mapping(target = "organizationId", source = "organizationId", qualifiedByName = ["uuidToString"]),
-            Mapping(target = "firstName", source = "firstName"),
-            Mapping(target = "secondName", source = "secondName"),
-            Mapping(target = "jobTitle", source = "jobTitle")
+    fun toDto(employee: EmployeeEntity): Employee = Employee(
+        id = uuidToString(employee.id),
+        organizationId = uuidToString(employee.organizationId),
+        firstName = employee.firstName,
+        lastName = employee.lastName,
+        jobTitle = employee.jobTitle
     )
-    abstract fun toDto(employee: EmployeeEntity): Employee
 }
