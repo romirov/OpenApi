@@ -20,21 +20,15 @@ open class OpenApiConfiguration {
     @Autowired
     lateinit var employeeRepository: EmployeeRepository
 
-    @Autowired
-    lateinit var organizationMapper: OrganizationMapper
-
-    @Autowired
-    lateinit var employeeMapper: EmployeeMapper
+    @Bean
+    open fun organizationService() = OrganizationService(organizationRepository, organizationMapper())
 
     @Bean
-    open fun organizationService() = OrganizationService(organizationRepository, organizationMapper)
-
-    @Bean
-    open fun employeeService() = EmployeeService(employeeRepository, employeeMapper)
+    open fun employeeService() = EmployeeService(employeeRepository, employeeMapper())
 
     @Bean
     open fun organizationMapper() = OrganizationMapper()
 
     @Bean
-    open fun employeeMapper() = EmployeeMapper()
+    open fun employeeMapper() = EmployeeMapper(organizationRepository)
 }

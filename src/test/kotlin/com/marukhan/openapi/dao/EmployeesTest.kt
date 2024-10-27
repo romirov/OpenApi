@@ -8,8 +8,8 @@ object EmployeesTest {
     private val employeeEntityId2 = UUID.fromString("z749d220-9a4f-4bb7-8235-3e42229df243")
 
     val employee1 =
-            EmployeeEntity(id = employeeEntityId1, organizationId = organizationEntityId, firstName = "Test1", lastName = "Test1", jobTitle = "Boss")
+            EmployeeEntity(id = employeeEntityId1, organization = OrganizationTest.organization, firstName = "Test1", lastName = "Test1", jobTitle = "Boss")
     val employee2 =
-            EmployeeEntity(id = employeeEntityId2, organizationId = organizationEntityId, firstName = "Test2`", lastName = "Test2", jobTitle = "Worker")
+            EmployeeEntity(id = employeeEntityId2, organization = OrganizationTest.organization, firstName = "Test2`", lastName = "Test2", jobTitle = "Worker")
 
 }

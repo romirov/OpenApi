@@ -13,13 +13,9 @@ interface EmployeeRepository: JpaRepository<EmployeeEntity, UUID>{
     fun save(employeeEntity: EmployeeEntity): EmployeeEntity
 
     @Transactional(propagation = Propagation.MANDATORY)
-    fun updateById(employeeEntity: EmployeeEntity): EmployeeEntity
+    override fun deleteById(id: UUID)
 
-    @Transactional(propagation = Propagation.MANDATORY)
-    fun deleteByEmployeeIdAndOrganizationId(employeeId: UUID, organizationId: UUID)
 
     @Transactional(propagation = Propagation.MANDATORY)
     override fun deleteAll()
-
-    fun findByEmployeeIdAndOrganizationId(employeeId: UUID, organizationId: UUID): Optional<EmployeeEntity>
 }

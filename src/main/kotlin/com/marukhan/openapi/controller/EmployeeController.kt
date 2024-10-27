@@ -16,18 +16,10 @@ class EmployeeController : EmployeeApi {
     override fun updateEmployeeById(organizationId: String, employeeId: String, firstName: String, secondName: String, jobTitle: String): ResponseEntity<Employee> =
             ResponseEntity.ok(employeeService.update(Employee(employeeId, organizationId, firstName, secondName, jobTitle)))
 
-    override fun deleteEmployeeById(organizationId: String, employeeId: String): ResponseEntity<Unit> {
-        employeeService.deleteByEmployeeIdAndOrganizationId(employeeId, organizationId)
-        return ResponseEntity.ok().build()
-    }
-
     override fun deleteEmployees(organizationId: String): ResponseEntity<Unit> {
         employeeService.deleteAll()
         return ResponseEntity.ok().build()
     }
-
-    override fun getEmployeeById(organizationId: String, employeeId: String): ResponseEntity<Employee> =
-            ResponseEntity.ok(employeeService.findByEmployeeIdAndOrganizationId(employeeId, organizationId))
 
     override fun getEmployees(organizationId: String): ResponseEntity<List<Employee>> =
             ResponseEntity.ok(employeeService.findAll())

@@ -6,7 +6,7 @@ import com.marukhan.openapi.repository.OrganizationRepository
 import jakarta.transaction.Transactional
 
 
-class OrganizationService(
+open class OrganizationService(
         private val repository: OrganizationRepository,
         private val mapper: OrganizationMapper
 ) {
@@ -20,7 +20,7 @@ class OrganizationService(
     @Transactional
     fun update(organization: Organization): Organization {
         val organizationEntity = mapper.fromDto(organization)
-        val organizationEntityFromDb = repository.updateById(organizationEntity)
+        val organizationEntityFromDb = repository.save(organizationEntity)
         return mapper.toDto(organizationEntityFromDb)
     }
 

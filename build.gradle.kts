@@ -97,7 +97,7 @@ openApiGenerate {
     id.set("request")
     generatorName.set("kotlin-spring")
     inputSpec.set("${rootDir}/src/main/resources/openapi/organization-openapi-v1.0.yml")
-    outputDir.set("${layout.buildDirectory.get()}/openapi-generated/src/main/kotlin")
+    outputDir.set("${layout.buildDirectory.get()}/openapi-generated")
     apiPackage.set("com.marukhan.openapi.api.request")
     modelPackage.set("com.marukhan.openapi.model.request")
     configOptions.set(openApiConfig)

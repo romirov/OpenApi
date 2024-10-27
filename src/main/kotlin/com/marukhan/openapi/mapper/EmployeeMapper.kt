@@ -2,28 +2,33 @@ package com.marukhan.openapi.mapper
 
 import com.marukhan.openapi.dao.EmployeeEntity
 import com.marukhan.openapi.model.request.Employee
+import com.marukhan.openapi.repository.OrganizationRepository
+import org.springframework.stereotype.Service
 
-class EmployeeMapper : OpenApiIdMapper() {
-    fun fromDto(employee: Employee): EmployeeEntity {
-        requireNotNull(employee.id)
-        requireNotNull(employee.organizationId)
-        requireNotNull(employee.firstName)
-        requireNotNull(employee.lastName)
-        requireNotNull(employee.jobTitle)
-        return EmployeeEntity(
-            id = stringToUuid(employee.id),
-            organizationId = stringToUuid(employee.organizationId),
-            firstName = employee.firstName,
-            lastName = employee.lastName,
-            jobTitle = employee.jobTitle
-        )
-    }
+@Service
+class EmployeeMapper(
+	val organizationRepository: OrganizationRepository
+) : OpenApiIdMapper() {
+		fun fromDto(employee: Employee): EmployeeEntity {
+				val organizationEntity = employee.organizationId?.let { organizationId ->
+						organizationRepository.getReferenceById(stringToUuid(organizationId))
+				} ?: error("organizationId can't be null")
+				val firstName = employee.firstName ?: error("firstName can't be null")
+				val lastName = employee.lastName ?: error("lastName can't be null")
+				val jobTitle = employee.jobTitle ?: error("jobTitle can't be null")
+				return EmployeeEntity(
+					organization = organizationEntity,
+					firstName = firstName,
+					lastName = lastName,
+					jobTitle = jobTitle
+				)
+		}
 
-    fun toDto(employee: EmployeeEntity): Employee = Employee(
-        id = uuidToString(employee.id),
-        organizationId = uuidToString(employee.organizationId),
-        firstName = employee.firstName,
-        lastName = employee.lastName,
-        jobTitle = employee.jobTitle
-    )
+		fun toDto(employee: EmployeeEntity): Employee = Employee(
+			id = uuidToString(employee.id),
+			organizationId = uuidToString(employee.organization.id),
+			firstName = employee.firstName,
+			lastName = employee.lastName,
+			jobTitle = employee.jobTitle
+		)
 }

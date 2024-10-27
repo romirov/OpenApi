@@ -6,7 +6,8 @@ spring:
     username: { POSTGRES_DB_USERNAME }
     password: { POSTGRES_DB_PASSWORD }
     driver-class-name: org.postgresql.Driver
-    jpa:
-      properties:
-        hibernate:
-          show_sql: true
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        show_sql: true

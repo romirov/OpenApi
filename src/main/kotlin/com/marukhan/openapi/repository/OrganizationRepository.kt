@@ -13,9 +13,6 @@ interface OrganizationRepository: JpaRepository<OrganizationEntity, UUID>{
     fun save(organizationEntity: OrganizationEntity): OrganizationEntity
 
     @Transactional(propagation = Propagation.MANDATORY)
-    fun updateById(organizationEntity: OrganizationEntity): OrganizationEntity
-
-    @Transactional(propagation = Propagation.MANDATORY)
     override fun deleteById(id: UUID)
 
     @Transactional(propagation = Propagation.MANDATORY)

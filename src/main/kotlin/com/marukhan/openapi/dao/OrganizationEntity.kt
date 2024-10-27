@@ -1,10 +1,15 @@
 package com.marukhan.openapi.dao
 
-import jakarta.persistence.Entity
+import jakarta.persistence.*
 import java.util.*
 
 @Entity
+@Table(name = "organizations")
 data class OrganizationEntity(
-        val id: UUID,
-        val organizationName: String
+	@Id
+	val id: UUID = UUID.randomUUID(),
+	@Column
+	val organizationName: String,
+	@OneToMany(mappedBy = "organization")
+	val employees: List<EmployeeEntity>
 )
