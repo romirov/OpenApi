@@ -1,4 +1,4 @@
-openapi: 3.1.0
+openapi: 3.0.3
 info:
   title: UI-Backend Organization-Employees API
   description: API for interaction between frontend and backend
@@ -25,13 +25,12 @@ paths:
       summary: Add a new organization
       description: Add a new organization
       operationId: addOrganization
-      parameters:
-        - name: organizationName
-          description: organization name
-          schema:
-            type: string
-          in: path
-          required: true
+      requestBody:
+        description: Create a new organization
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Organization'
       responses:
         '200':
           description: Successful operation
@@ -88,7 +87,7 @@ paths:
           description: organization name
           schema:
             type: string
-          in: path
+          in: query
           required: true
       responses:
         '200':
@@ -106,7 +105,7 @@ paths:
     get:
       tags:
         - organization
-      summary: Finds Organization by ID
+      summary: Find organization by ID
       description: Get an existing organization by Id
       operationId: getOrganizationById
       parameters:
@@ -162,19 +161,19 @@ paths:
           description: Employee first name
           schema:
             type: string
-          in: path
+          in: query
           required: true
         - name: lastName
           description: Employee last name
           schema:
             type: string
-          in: path
+          in: query
           required: true
         - name: jobTitle
           description: Job Title of Employee
           schema:
             type: string
-          in: path
+          in: query
           required: true
       responses:
         '200':
@@ -251,19 +250,19 @@ paths:
           description: Employee first name
           schema:
             type: string
-          in: path
+          in: query
           required: true
         - name: lastName
           description: Employee last name
           schema:
             type: string
-          in: path
+          in: query
           required: true
         - name: jobTitle
           description: Job Title of Employee
           schema:
             type: string
-          in: path
+          in: query
           required: true
       responses:
         '200':
@@ -276,6 +275,58 @@ paths:
           description: Invalid input
         '422':
           description: Validation exception
+    get:
+      tags:
+        - employee
+      summary: Get an employee by ID
+      description: Get an employee by ID
+      operationId: getEmployee
+      parameters:
+        - name: organizationId
+          description: organization ID
+          schema:
+            type: string
+          in: path
+          required: true
+        - name: employeeId
+          description: Employee ID
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Employee'
+        '404':
+          description: Employee not found
+    delete:
+      tags:
+        - employee
+      summary: Delete an employee by ID
+      description: Delete an employee by ID
+      operationId: deleteEmployee
+      parameters:
+        - name: organizationId
+          description: organization ID
+          schema:
+            type: string
+          in: path
+          required: true
+        - name: employeeId
+          description: Employee ID
+          schema:
+            type: string
+          in: path
+          required: true
+      responses:
+        '404':
+          description: Employee not found
 
 components:
   schemas:
@@ -291,6 +342,10 @@ components:
           nullable: false
           description: Organization Name
           example: HHCorp
+        employees:
+          type: array
+          items:
+            $ref: '#/components/schemas/Employee'
     Employee:
       type: object
       properties:
