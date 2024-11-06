@@ -5,13 +5,15 @@ import com.marukhan.openapi.model.request.Organization
 import com.marukhan.openapi.service.OrganizationService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
+import org.springframework.web.bind.annotation.RestController
 
+@RestController
 class OrganizationController : OrganizationApi {
     @Autowired
     lateinit var organizationService: OrganizationService
 
-    override fun addOrganization(organizationName: String): ResponseEntity<Organization> =
-            ResponseEntity.ok(organizationService.save(Organization(organizationName)))
+    override fun addOrganization(organization: Organization?): ResponseEntity<Organization> =
+      ResponseEntity.ok(organization?.let {organizationService.save(it)})
 
     override fun updateOrganizationById(organizationId: String, organizationName: String): ResponseEntity<Organization> =
             ResponseEntity.ok(organizationService.update(Organization(organizationId, organizationName)))

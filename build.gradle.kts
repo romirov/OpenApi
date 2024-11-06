@@ -2,7 +2,6 @@ import org.openapitools.generator.gradle.plugin.tasks.ValidateTask
 
 plugins {
     kotlin("jvm") version "1.9.25"
-    kotlin("kapt") version "2.0.20"
     kotlin("plugin.spring") version "1.9.25"
     kotlin("plugin.jpa") version "1.9.25"
 
@@ -30,9 +29,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("jakarta.validation:jakarta.validation-api")
-//    implementation("org.mapstruct:mapstruct:1.6.2")
-//
-//    kapt("org.mapstruct:mapstruct-processor:1.6.2")
+//    implementation("org.testcontainers:testcontainers-bom:1.20.3")
 
     runtimeOnly("org.postgresql:postgresql")
 
@@ -89,7 +86,6 @@ tasks.register<ValidateTask>("validateSpec") {
     outputs.upToDateWhen { false }
     outputs.cacheIf { false }
     inputSpec.set("${rootDir}/src/main/resources/openapi/organization-openapi-v1.0.yml")
-//    recommend.set(true)
 }
 
 // Generating code by a single specification
@@ -103,4 +99,8 @@ openApiGenerate {
     configOptions.set(openApiConfig)
     typeMappings.set(openApiTypeMapping)
     importMappings.set(openApiImportMapping)
+}
+
+tasks.compileKotlin {
+    dependsOn(tasks.openApiGenerate)
 }
