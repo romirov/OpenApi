@@ -8,14 +8,13 @@ import org.springframework.transaction.annotation.Transactional
 import java.util.*
 
 @Repository
-interface EmployeeRepository: JpaRepository<EmployeeEntity, UUID>{
-    @Transactional(propagation = Propagation.MANDATORY)
-    fun save(employeeEntity: EmployeeEntity): EmployeeEntity
+interface EmployeeRepository : JpaRepository<EmployeeEntity, UUID> {
+		@Transactional(propagation = Propagation.MANDATORY)
+		fun save(employeeEntity: EmployeeEntity): EmployeeEntity
 
-    @Transactional(propagation = Propagation.MANDATORY)
-    override fun deleteById(id: UUID)
+		@Transactional(propagation = Propagation.MANDATORY)
+		override fun deleteById(id: UUID)
 
-
-    @Transactional(propagation = Propagation.MANDATORY)
-    override fun deleteAll()
+		@Transactional(propagation = Propagation.MANDATORY)
+		override fun deleteAll()
 }
