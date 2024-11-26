@@ -14,15 +14,15 @@ import org.testcontainers.containers.PostgreSQLContainer
 @TestInstance(PER_CLASS)
 abstract class AbstractRepo {
     @Autowired
-    lateinit var postgres: PostgreSQLContainer<*>
+    lateinit var postgresContainer: PostgreSQLContainer<*>
 
     @BeforeAll
     fun beforeAll() {
-        postgres.start()
+        postgresContainer.start()
     }
 
     @AfterAll
     fun afterAll() {
-        postgres.stop()
+        postgresContainer.stop()
     }
 }

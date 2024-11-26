@@ -6,17 +6,24 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.transaction.support.TransactionTemplate
 
 class EmployeeRepoTest : AbstractRepo() {
 		@Autowired
 		lateinit var repo: EmployeeRepository
 
 		@Autowired
+		lateinit var txManager: TransactionTemplate
+
+		@Autowired
 		lateinit var repoOrg: OrganizationRepository
 
 		@Test
 		fun `test for save`() {
-				val res = repo.save(EmployeesTest.employee1)
+				val res = txManager.execute {
+						repo.save(EmployeesTest.employee1)
+				}
+
 				Assertions.assertEquals(res, EmployeesTest.employee1)
 		}
 

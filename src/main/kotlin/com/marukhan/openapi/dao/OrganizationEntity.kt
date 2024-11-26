@@ -8,7 +8,7 @@ import java.util.*
 data class OrganizationEntity(
 	@Id
 	val id: UUID = UUID.randomUUID(),
-	@Column
+	@Column(name = "organization_name")
 	val organizationName: String,
 	@OneToMany(mappedBy = "organization")
 	val employees: List<EmployeeEntity>

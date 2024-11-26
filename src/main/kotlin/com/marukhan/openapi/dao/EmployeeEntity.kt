@@ -10,10 +10,10 @@ data class EmployeeEntity (
     val id: UUID = UUID.randomUUID(),
     @ManyToOne
     val organization: OrganizationEntity,
-    @Column
+    @Column(name = "first_name")
     val firstName: String,
-    @Column
+    @Column(name = "last_name")
     val lastName: String,
-    @Column
+    @Column(name = "job_title")
     val jobTitle: String,
 )
