@@ -1,52 +1,69 @@
 package com.marukhan.openapi.repository
 
 import com.marukhan.openapi.dao.OrganizationTest
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Disabled
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.transaction.support.TransactionTemplate
 
-class OrganizationRepoTest: AbstractRepo() {
-    @Autowired
-    lateinit var repo: OrganizationRepository
+class OrganizationRepoTest : AbstractRepo() {
+		@Autowired
+		lateinit var repo: OrganizationRepository
 
-    @Test
-    fun `test for save`() {
-        val res = repo.save(OrganizationTest.organization)
-        Assertions.assertNotNull(res)
-    }
+		@Autowired
+		lateinit var txManager: TransactionTemplate
 
-    @Test
-    @Disabled
-    fun `test for update by Id`() {
-        val res = repo.save(OrganizationTest.organization)
-        val updRes = repo.save(res.copy(organizationName = "newName"))
-        Assertions.assertEquals(updRes, res.copy(organizationName = "newName"))
-    }
+		@AfterEach
+		fun resetAll() {
+				txManager.execute {
+						repo.deleteAll()
+				}
+		}
 
-    @Test
-    @Disabled
-    fun `test for delete by Id`() {
-        val res = repo.save(OrganizationTest.organization)
-        repo.deleteById(res.id)
-        val updRes = repo.findById(res.id)
-        Assertions.assertNull(updRes)
-    }
+		@Test
+		fun `test for save`() {
+				txManager.execute {
+						val res = repo.save(OrganizationTest.organization)
+						Assertions.assertNotNull(res)
+				}
+		}
 
-    @Test
-    @Disabled
-    fun `test for find by Id`() {
-        val res = repo.save(OrganizationTest.organization)
-        val updRes = repo.findById(res.id)
-        Assertions.assertEquals(updRes, res)
-    }
+		@Test
+		fun `test for update by Id`() {
+				val updRes = txManager.execute {
+						val res = repo.save(OrganizationTest.organization)
+						repo.save(res.copy(organizationName = "newName"))
+				}
+				Assertions.assertEquals(updRes!!.organizationName, "newName")
+		}
 
-    @Test
-    @Disabled
-    fun `test for delete all`() {
-        repo.save(OrganizationTest.organization)
-        repo.deleteAll()
-        val updRes = repo.findAll()
-        Assertions.assertTrue(updRes.isEmpty())
-    }
+		@Test
+		fun `test for delete by Id`() {
+				txManager.execute {
+						val res = repo.save(OrganizationTest.organization)
+						repo.deleteById(res.id)
+						val updRes = repo.findById(res.id)
+						Assertions.assertTrue(updRes.isEmpty)
+				}
+		}
+
+		@Test
+		fun `test for find by Id`() {
+				txManager.execute {
+						val res = repo.save(OrganizationTest.organization)
+						val updRes = repo.findById(res.id)
+						Assertions.assertEquals(updRes.get(), res)
+				}
+		}
+
+		@Test
+		fun `test for delete all`() {
+				txManager.execute {
+						repo.save(OrganizationTest.organization)
+						Assertions.assertTrue(repo.findAll().isNotEmpty())
+						repo.deleteAll()
+						Assertions.assertTrue(repo.findAll().isEmpty())
+				}
+		}
 }

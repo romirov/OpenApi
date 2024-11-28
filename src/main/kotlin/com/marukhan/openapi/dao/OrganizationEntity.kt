@@ -11,5 +11,5 @@ data class OrganizationEntity(
 	@Column(name = "organization_name")
 	val organizationName: String,
 	@OneToMany(mappedBy = "organization")
-	val employees: List<EmployeeEntity>
+	val employees: Set<EmployeeEntity>
 )

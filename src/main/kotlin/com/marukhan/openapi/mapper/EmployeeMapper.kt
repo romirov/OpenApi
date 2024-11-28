@@ -26,7 +26,7 @@ class EmployeeMapper(
 
 		fun toDto(employee: EmployeeEntity): Employee = Employee(
 			id = uuidToString(employee.id),
-			organizationId = uuidToString(employee.organization.id),
+//			organizationId = uuidToString(employee.organization.id),
 			firstName = employee.firstName,
 			lastName = employee.lastName,
 			jobTitle = employee.jobTitle

@@ -8,7 +8,7 @@ class OrganizationMapper : OpenApiIdMapper() {
 				val organizationName = organization.organizationName ?: error("Organization name can't be null")
 				return OrganizationEntity(
 					organizationName = organizationName,
-					employees = emptyList()
+					employees = emptySet()
 				)
 		}
 
