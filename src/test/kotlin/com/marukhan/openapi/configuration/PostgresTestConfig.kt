@@ -1,4 +1,4 @@
-package com.marukhan.openapi.repository
+package com.marukhan.openapi.configuration
 
 import com.github.dockerjava.api.model.ExposedPort
 import com.github.dockerjava.api.model.HostConfig

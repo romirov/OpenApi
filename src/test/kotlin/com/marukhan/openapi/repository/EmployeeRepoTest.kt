@@ -1,5 +1,6 @@
 package com.marukhan.openapi.repository
 
+import com.marukhan.openapi.AbstractTestWithDb
 import com.marukhan.openapi.dao.EmployeesTest
 import com.marukhan.openapi.dao.OrganizationTest
 import org.junit.jupiter.api.AfterEach
@@ -8,7 +9,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.transaction.support.TransactionTemplate
 
-class EmployeeRepoTest : AbstractRepo() {
+class EmployeeRepoTest : AbstractTestWithDb() {
 		@Autowired
 		lateinit var repo: EmployeeRepository
 

@@ -14,21 +14,21 @@ import org.springframework.transaction.annotation.EnableTransactionManagement
 @Configuration
 @EnableTransactionManagement
 open class OpenApiConfiguration {
-    @Autowired
-    lateinit var organizationRepository: OrganizationRepository
+		@Autowired
+		lateinit var organizationRepository: OrganizationRepository
 
-    @Autowired
-    lateinit var employeeRepository: EmployeeRepository
+		@Autowired
+		lateinit var employeeRepository: EmployeeRepository
 
-    @Bean
-    open fun organizationService() = OrganizationService(organizationRepository, organizationMapper())
+		@Bean
+		open fun organizationService() = OrganizationService(organizationRepository, organizationMapper())
 
-    @Bean
-    open fun employeeService() = EmployeeService(employeeRepository, employeeMapper())
+		@Bean
+		open fun employeeService() = EmployeeService(employeeRepository, organizationRepository, employeeMapper())
 
-    @Bean
-    open fun organizationMapper() = OrganizationMapper()
+		@Bean
+		open fun organizationMapper() = OrganizationMapper()
 
-    @Bean
-    open fun employeeMapper() = EmployeeMapper(organizationRepository)
+		@Bean
+		open fun employeeMapper() = EmployeeMapper(organizationRepository)
 }

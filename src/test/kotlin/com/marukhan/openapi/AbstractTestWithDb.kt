@@ -1,5 +1,6 @@
-package com.marukhan.openapi.repository
+package com.marukhan.openapi
 
+import com.marukhan.openapi.configuration.PostgresTestConfig
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
@@ -12,7 +13,7 @@ import org.testcontainers.containers.PostgreSQLContainer
 @SpringBootTest(classes = [PostgresTestConfig::class])
 @ActiveProfiles("test")
 @TestInstance(PER_CLASS)
-abstract class AbstractRepo {
+abstract class AbstractTestWithDb {
     @Autowired
     lateinit var postgresContainer: PostgreSQLContainer<*>
 

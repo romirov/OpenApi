@@ -35,8 +35,10 @@ dependencies {
 		testImplementation("org.springframework.boot:spring-boot-starter-test")
 		testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 		testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
-		testImplementation("org.testcontainers:postgresql:1.20.3")
+		testImplementation("org.testcontainers:postgresql:1.20.4")
 		testImplementation("org.testcontainers:junit-jupiter:1.20.3")
+		testImplementation("io.mockk:mockk:1.13.13")
+		testImplementation("com.ninja-squad:springmockk:4.0.2")
 }
 
 tasks.withType<Test> {

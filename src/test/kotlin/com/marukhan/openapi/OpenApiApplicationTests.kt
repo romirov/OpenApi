@@ -1,6 +1,6 @@
 package com.marukhan.openapi
 
-import com.marukhan.openapi.repository.PostgresTestConfig
+import com.marukhan.openapi.configuration.PostgresTestConfig
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
@@ -12,5 +12,4 @@ class OpenApiApplicationTests {
 	@Test
 	fun contextLoads() {
 	}
-
 }

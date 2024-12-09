@@ -3,22 +3,30 @@ package com.marukhan.openapi.service
 import com.marukhan.openapi.mapper.EmployeeMapper
 import com.marukhan.openapi.model.request.Employee
 import com.marukhan.openapi.repository.EmployeeRepository
+import com.marukhan.openapi.repository.OrganizationRepository
 import java.util.*
 
 open class EmployeeService(
 	private val employeeRepository: EmployeeRepository,
+	private val organizationRepository: OrganizationRepository,
 	private val employeeMapper: EmployeeMapper
 ) {
 		fun save(employee: Employee): Employee {
-				val employeeEntity = employeeMapper.fromDto(employee)
+				val organization = organizationRepository.findById(
+					UUID.fromString(employee.organizationId)
+				).orElseThrow()
+				val employeeEntity = employeeMapper.fromDto(employee, organization)
 				val employeeEntityFromDb = employeeRepository.save(employeeEntity)
 				return employeeMapper.toDto(employeeEntityFromDb)
 		}
 
 		fun update(employee: Employee): Employee {
 				val employeeOld = employeeRepository.findById(UUID.fromString(employee.id)).orElseThrow()
-				val emplEntityNew = employeeMapper.fromDto(employee).copy(employeeOld.id)
-				val employeeEntityFromDb = employeeRepository.save(emplEntityNew)
+				val organization = organizationRepository.findById(
+					UUID.fromString(employee.organizationId)
+				).orElseThrow()
+				val empEntityNew = employeeMapper.fromDto(employee, organization).copy(employeeOld.id)
+				val employeeEntityFromDb = employeeRepository.save(empEntityNew)
 				return employeeMapper.toDto(employeeEntityFromDb)
 		}
 
