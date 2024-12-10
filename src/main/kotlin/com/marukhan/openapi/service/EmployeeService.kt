@@ -4,9 +4,11 @@ import com.marukhan.openapi.mapper.EmployeeMapper
 import com.marukhan.openapi.model.request.Employee
 import com.marukhan.openapi.repository.EmployeeRepository
 import com.marukhan.openapi.repository.OrganizationRepository
+import org.springframework.stereotype.Service
 import java.util.*
 
-open class EmployeeService(
+@Service
+class EmployeeService(
 	private val employeeRepository: EmployeeRepository,
 	private val organizationRepository: OrganizationRepository,
 	private val employeeMapper: EmployeeMapper
@@ -21,7 +23,9 @@ open class EmployeeService(
 		}
 
 		fun update(employee: Employee): Employee {
-				val employeeOld = employeeRepository.findById(UUID.fromString(employee.id)).orElseThrow()
+				val employeeOld = employeeRepository.findById(
+					UUID.fromString(employee.id)
+				).orElseThrow()
 				val organization = organizationRepository.findById(
 					UUID.fromString(employee.organizationId)
 				).orElseThrow()
