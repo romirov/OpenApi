@@ -20,7 +20,7 @@ class OrganizationMapperTest : AbstractTestWithoutDb() {
 
 		@Test
 		fun `test fromDto`() {
-				val organization: Organization = Organization(UUID.randomUUID().toString(), "HHCorp")
+				val organization: Organization = Organization(id = UUID.randomUUID().toString(), organizationName = "HHCorp")
 				val res = mapper.fromDto(organization)
 				Assertions.assertEquals(res.organizationName, OrganizationTest.organization.organizationName)
 		}

@@ -143,7 +143,7 @@ paths:
         '404':
           description: Organization not found
 
-  /api/v1/organization/{organizationId}/employee:
+  /api/v1/employee:
     post:
       tags:
         - employee
@@ -192,13 +192,6 @@ paths:
       summary: Get all employees
       description: For valid response no need to specify parameters
       operationId: getEmployees
-      parameters:
-        - name: organizationId
-          description: organization ID
-          schema:
-            type: string
-          in: path
-          required: true
       responses:
         '200':
           description: successful operation
@@ -216,17 +209,10 @@ paths:
       summary: Delete all employees
       description: For valid response no need to specify parameters
       operationId: deleteEmployees
-      parameters:
-        - name: organizationId
-          description: organization ID
-          schema:
-            type: string
-          in: path
-          required: true
       responses:
         '404':
           description: Employees not found
-  /api/v1/organization/{organizationId}/employee/{employeeId}:
+  /api/v1/employee/{employeeId}:
     put:
       tags:
         - employee
@@ -234,17 +220,17 @@ paths:
       description: Update a employee
       operationId: updateEmployeeById
       parameters:
-        - name: organizationId
-          description: organization ID
-          schema:
-            type: string
-          in: path
-          required: true
         - name: employeeId
           description: Employee ID
           schema:
             type: string
           in: path
+          required: true
+        - name: organizationId
+          description: Organization ID
+          schema:
+            type: string
+          in: query
           required: true
         - name: firstName
           description: Employee first name
@@ -282,12 +268,6 @@ paths:
       description: Get an employee by ID
       operationId: getEmployee
       parameters:
-        - name: organizationId
-          description: organization ID
-          schema:
-            type: string
-          in: path
-          required: true
         - name: employeeId
           description: Employee ID
           schema:
@@ -300,9 +280,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Employee'
+                $ref: '#/components/schemas/Employee'
         '404':
           description: Employee not found
     delete:
@@ -312,12 +290,6 @@ paths:
       description: Delete an employee by ID
       operationId: deleteEmployee
       parameters:
-        - name: organizationId
-          description: organization ID
-          schema:
-            type: string
-          in: path
-          required: true
         - name: employeeId
           description: Employee ID
           schema:
@@ -346,6 +318,8 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Employee'
+      required:
+        - organizationName
     Employee:
       type: object
       properties:
@@ -369,3 +343,8 @@ components:
           type: string
           nullable: false
           example: Boss
+      required:
+        - organizationId
+        - firstName
+        - lastName
+        - jobTitle

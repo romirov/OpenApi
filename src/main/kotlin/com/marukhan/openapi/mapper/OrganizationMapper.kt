@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 @Service
 class OrganizationMapper : OpenApiIdMapper() {
 		fun fromDto(organization: Organization): OrganizationEntity {
-				val organizationName = organization.organizationName ?: error("Organization name can't be null")
+				val organizationName = organization.organizationName
 				return OrganizationEntity(
 					organizationName = organizationName,
 					employees = emptySet()

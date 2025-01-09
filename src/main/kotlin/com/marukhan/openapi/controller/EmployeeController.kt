@@ -9,28 +9,24 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class EmployeeController : EmployeeApi {
-    @Autowired
-    lateinit var employeeService: EmployeeService
+		@Autowired
+		lateinit var employeeService: EmployeeService
 
-    override fun addEmployee(organizationId: String, firstName: String, secondName: String, jobTitle: String): ResponseEntity<Employee> =
-            ResponseEntity.ok(employeeService.save(Employee(organizationId, firstName, secondName, jobTitle)))
+		override fun addEmployee(organizationId: String, firstName: String, secondName: String, jobTitle: String): ResponseEntity<Employee> =
+			ResponseEntity.ok(employeeService.save(Employee(organizationId, firstName, secondName, jobTitle)))
 
-    override fun deleteEmployee(organizationId: String, employeeId: String): ResponseEntity<Unit> {
-        TODO("Not yet implemented")
-    }
+		override fun deleteEmployee(employeeId: String): ResponseEntity<Unit> =
+			ResponseEntity.ok(employeeService.deleteById(employeeId))
 
-    override fun updateEmployeeById(organizationId: String, employeeId: String, firstName: String, secondName: String, jobTitle: String): ResponseEntity<Employee> =
-            ResponseEntity.ok(employeeService.update(Employee(employeeId, organizationId, firstName, secondName, jobTitle)))
+		override fun updateEmployeeById(employeeId: String, organizationId: String, firstName: String, secondName: String, jobTitle: String): ResponseEntity<Employee> =
+			ResponseEntity.ok(employeeService.update(Employee(employeeId, organizationId, firstName, secondName, jobTitle)))
 
-    override fun deleteEmployees(organizationId: String): ResponseEntity<Unit> {
-        employeeService.deleteAll()
-        return ResponseEntity.ok().build()
-    }
+		override fun deleteEmployees(): ResponseEntity<Unit> =
+			ResponseEntity.ok(employeeService.deleteAll())
 
-    override fun getEmployee(organizationId: String, employeeId: String): ResponseEntity<List<Employee>> {
-        TODO("Not yet implemented")
-    }
+		override fun getEmployee(employeeId: String): ResponseEntity<Employee> =
+			ResponseEntity.ok(employeeService.findById(employeeId))
 
-    override fun getEmployees(organizationId: String): ResponseEntity<List<Employee>> =
-            ResponseEntity.ok(employeeService.findAll())
+		override fun getEmployees(): ResponseEntity<List<Employee>> =
+			ResponseEntity.ok(employeeService.findAll())
 }

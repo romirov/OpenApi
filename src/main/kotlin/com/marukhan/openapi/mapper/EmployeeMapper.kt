@@ -12,9 +12,9 @@ class EmployeeMapper(
 ) : OpenApiIdMapper() {
 		fun fromDto(employee: Employee, organizationEntity: OrganizationEntity?): EmployeeEntity {
 				val orgId = organizationEntity?.id ?: error("organization id can't be null")
-				val firstName = employee.firstName ?: error("firstName can't be null")
-				val lastName = employee.lastName ?: error("lastName can't be null")
-				val jobTitle = employee.jobTitle ?: error("jobTitle can't be null")
+				val firstName = employee.firstName
+				val lastName = employee.lastName
+				val jobTitle = employee.jobTitle
 
 				return EmployeeEntity(
 					organization = organizationEntity,
@@ -26,6 +26,7 @@ class EmployeeMapper(
 
 		fun toDto(employee: EmployeeEntity): Employee = Employee(
 			id = uuidToString(employee.id),
+			organizationId = employee.id.toString(),
 			firstName = employee.firstName,
 			lastName = employee.lastName,
 			jobTitle = employee.jobTitle

@@ -40,4 +40,7 @@ class EmployeeService(
 		fun deleteAll() = employeeRepository.deleteAll()
 
 		fun findAll() = employeeRepository.findAll().map { employeeMapper.toDto(it) }
+
+		fun findById(employeeId: String) =
+			employeeMapper.toDto(employeeRepository.findById(UUID.fromString(employeeId)).orElseThrow())
 }

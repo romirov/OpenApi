@@ -26,6 +26,7 @@ dependencies {
 		implementation(kotlin("stdlib-jdk8"))
 		implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 		implementation("org.springframework.boot:spring-boot-starter-web")
+		//implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
 		implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 		implementation("org.jetbrains.kotlin:kotlin-reflect")
 		implementation("jakarta.validation:jakarta.validation-api")
@@ -39,6 +40,7 @@ dependencies {
 		testImplementation("org.testcontainers:junit-jupiter:1.20.3")
 		testImplementation("io.mockk:mockk:1.13.13")
 		testImplementation("com.ninja-squad:springmockk:4.0.2")
+		testImplementation("com.squareup.okhttp3:mockwebserver:4.12.0")
 }
 
 tasks.withType<Test> {

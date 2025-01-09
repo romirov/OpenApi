@@ -14,16 +14,12 @@ import org.testcontainers.containers.PostgreSQLContainer
 @ActiveProfiles("test")
 @TestInstance(PER_CLASS)
 abstract class AbstractTestWithDb {
-    @Autowired
-    lateinit var postgresContainer: PostgreSQLContainer<*>
+		@Autowired
+		lateinit var postgresContainer: PostgreSQLContainer<*>
 
-    @BeforeAll
-    fun beforeAll() {
-        postgresContainer.start()
-    }
+		@BeforeAll
+		fun beforeAll() = postgresContainer.start()
 
-    @AfterAll
-    fun afterAll() {
-        postgresContainer.stop()
-    }
+		@AfterAll
+		fun afterAll() = postgresContainer.stop()
 }
