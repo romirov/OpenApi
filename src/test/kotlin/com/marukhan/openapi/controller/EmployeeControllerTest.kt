@@ -2,54 +2,54 @@ package com.marukhan.openapi.controller
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.marukhan.openapi.AbstractTestWithoutDb
-import com.marukhan.openapi.dao.OrganizationEntity
+import com.marukhan.openapi.model.request.CreateEmployeeRq
 import com.marukhan.openapi.model.request.Employee
+import com.marukhan.openapi.service.EmployeeService
+import com.ninjasquad.springmockk.MockkBean
+import io.mockk.coVerify
 import io.mockk.every
-import okhttp3.mockwebserver.MockResponse
-import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
-import org.springframework.beans.factory.annotation.Autowired
-import java.util.Optional
+import org.springframework.http.MediaType
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import java.util.UUID
 
 class EmployeeControllerTest : AbstractTestWithoutDb() {
-		@Autowired
-		lateinit var employeeController: EmployeeController
+	@MockkBean(relaxed = true)
+	lateinit var employeeService: EmployeeService
 
-		@Test
-		fun `add Employee test`() {
-				every { organizationRepository.findById(any()) } returns organization
-				mockWebServer.enqueue(
-					MockResponse()
-						.setResponseCode(200)
-						.setBody(
-							jacksonObjectMapper().writeValueAsString(employee)
-						)
-				)
-				val result = employeeController.addEmployee(
-					employee.organizationId, employee.firstName, employee.lastName, employee.jobTitle
-				)
-				val rq = mockWebServer.takeRequest()
-				Assertions.assertEquals(result.body?.firstName, employee.firstName)
-				Assertions.assertEquals(result.body?.lastName, employee.lastName)
-		}
+	@Test
+	fun `add Employee test`() {
+		every { employeeService.save(any()) } returns employee
+		mockMvc.perform(
+			MockMvcRequestBuilders.post("/api/v1/employee")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(jacksonObjectMapper().writeValueAsString(createEmployeeRq))
+		)
+			.andExpect(MockMvcResultMatchers.content().string(jacksonObjectMapper().writeValueAsString(employee)))
+			.andReturn()
 
-		private companion object {
-				val employeeId = UUID.randomUUID().toString()
-				val organizationId = UUID.randomUUID().toString()
-				val employee = Employee(
-					id = employeeId,
-					organizationId = organizationId,
-					firstName = "Test",
-					lastName = "Test",
-					jobTitle = "Test"
-				)
-				val organization: Optional<OrganizationEntity> = Optional.of<OrganizationEntity>(
-					OrganizationEntity(
-						id = UUID.fromString(organizationId),
-						organizationName = "Test",
-						employees = emptySet()
-					)
-				)
+		coVerify {
+			employeeService.save(any())
 		}
+	}
+
+	private companion object {
+		val employeeId = UUID.randomUUID().toString()
+		val organizationId = UUID.randomUUID().toString()
+		val createEmployeeRq =
+			CreateEmployeeRq(
+				organizationId,
+				"Test",
+				"Test",
+				"Test"
+			)
+		val employee = Employee(
+			id = employeeId,
+			organizationId = organizationId,
+			firstName = "Test",
+			lastName = "Test",
+			jobTitle = "Test"
+		)
+	}
 }
