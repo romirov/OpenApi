@@ -1,33 +1,40 @@
 package com.marukhan.openapi.service
 
 import com.marukhan.openapi.mapper.OrganizationMapper
-import com.marukhan.openapi.model.request.Organization
+import com.marukhan.openapi.model.request.OrganizationRq
+import com.marukhan.openapi.model.request.OrganizationRs
 import com.marukhan.openapi.repository.OrganizationRepository
 import org.springframework.stereotype.Service
+import java.util.UUID
 
 @Service
 class OrganizationService(
-        private val repository: OrganizationRepository,
-        private val mapper: OrganizationMapper
+	private val repository: OrganizationRepository,
+	private val mapper: OrganizationMapper
 ) {
-    fun save(organization: Organization): Organization {
-        val organizationEntity = mapper.fromDto(organization)
-        val organizationEntityFromDb = repository.save(organizationEntity)
-        return mapper.toDto(organizationEntityFromDb)
-    }
+	fun save(organizationRq: OrganizationRq): OrganizationRs {
+		val organizationEntity = mapper.fromDto(organizationRq)
+		val organizationEntityFromDb = repository.save(organizationEntity)
+		return mapper.toDto(organizationEntityFromDb)
+	}
 
-    fun update(organization: Organization): Organization {
-        val organizationEntity = mapper.fromDto(organization)
-        require(repository.existsById(organizationEntity.id))
-        val organizationEntityFromDb = repository.save(organizationEntity)
-        return mapper.toDto(organizationEntityFromDb)
-    }
+	fun update(organizationId: String, organizationRq: OrganizationRq): OrganizationRs {
+		val organizationEntity = repository.findById(
+			UUID.fromString(organizationId)
+		).orElseThrow()
+		val organizationEntityFromDb = repository.save(
+			organizationEntity.copy(organizationName = organizationRq.organizationName)
+		)
+		return mapper.toDto(organizationEntityFromDb)
+	}
 
-    fun deleteById(id: String) = repository.deleteById(mapper.stringToUuid(id))
+	fun deleteById(id: String) = repository.deleteById(mapper.stringToUuid(id))
 
-    fun deleteAll() = repository.deleteAll()
+	fun deleteAll() = repository.deleteAll()
 
-    fun findAll(): List<Organization> = repository.findAll().map { mapper.toDto(it) }
+	fun findAll(): List<OrganizationRs> = repository.findAll().map { mapper.toDto(it) }
 
-    fun findById(id: String): Organization = repository.findById(mapper.stringToUuid(id)).let { mapper.toDto(it.orElseThrow()) }
+	fun findById(id: String): OrganizationRs = repository
+		.findById(mapper.stringToUuid(id))
+		.let { mapper.toDto(it.orElseThrow()) }
 }

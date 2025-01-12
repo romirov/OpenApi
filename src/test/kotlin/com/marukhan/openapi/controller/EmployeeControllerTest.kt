@@ -2,8 +2,8 @@ package com.marukhan.openapi.controller
 
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.marukhan.openapi.AbstractTestWithoutDb
-import com.marukhan.openapi.model.request.CreateEmployeeRq
-import com.marukhan.openapi.model.request.Employee
+import com.marukhan.openapi.model.request.EmployeeRq
+import com.marukhan.openapi.model.request.EmployeeRs
 import com.marukhan.openapi.service.EmployeeService
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.coVerify
@@ -38,13 +38,13 @@ class EmployeeControllerTest : AbstractTestWithoutDb() {
 		val employeeId = UUID.randomUUID().toString()
 		val organizationId = UUID.randomUUID().toString()
 		val createEmployeeRq =
-			CreateEmployeeRq(
+			EmployeeRq(
 				organizationId,
 				"Test",
 				"Test",
 				"Test"
 			)
-		val employee = Employee(
+		val employee = EmployeeRs(
 			id = employeeId,
 			organizationId = organizationId,
 			firstName = "Test",

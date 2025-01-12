@@ -3,20 +3,12 @@ info:
   title: UI-Backend Organization-Employees API
   description: API for interaction between frontend and backend
   version: 1.0.0
-externalDocs:
-  description: Find out more about Swagger
-  url: http://swagger.io
 tags:
   - name: organization
     description: Operations about organization
-    externalDocs:
-      description: Find out more
-      url: http://swagger.io
   - name: employee
     description: Operations about employee
-    externalDocs:
-      description: Find out more about our store
-      url: http://swagger.io
+
 paths:
   /api/v1/organization:
     post:
@@ -26,22 +18,21 @@ paths:
       description: Add a new organization
       operationId: addOrganization
       requestBody:
-        description: Create a new organization
+        description: Organization object that needs to be added
+        required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/Organization'
+              $ref: '#/components/schemas/OrganizationRq'
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Organization'
+                $ref: '#/components/schemas/OrganizationRs'
         '400':
           description: Invalid input
-        '422':
-          description: Validation exception
     get:
       tags:
         - organization
@@ -50,15 +41,15 @@ paths:
       operationId: getOrganizations
       responses:
         '200':
-          description: successful operation
+          description: Successful operation
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Organization'
+                  $ref: '#/components/schemas/OrganizationRs'
         '404':
-          description: organizations not found
+          description: Organizations not found
     delete:
       tags:
         - organization
@@ -66,8 +57,8 @@ paths:
       description: For valid response no need to specify parameters
       operationId: deleteOrganizations
       responses:
-        '404':
-          description: organizations not found
+        '200':
+          description: Successful operation
 
   /api/v1/organization/{organizationId}:
     put:
@@ -78,30 +69,29 @@ paths:
       operationId: updateOrganizationById
       parameters:
         - name: organizationId
-          description: organization ID
-          schema:
-            type: string
           in: path
+          description: ID of the organization that needs to be deleted
           required: true
-        - name: organizationName
-          description: organization name
           schema:
             type: string
-          in: query
-          required: true
+      requestBody:
+        description: Organization object that needs to be updated
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationRq'
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Organization'
+                $ref: '#/components/schemas/OrganizationRs'
         '400':
-          description: Invalid ID supplied
+          description: Invalid input
         '404':
           description: Organization not found
-        '422':
-          description: Validation exception
     get:
       tags:
         - organization
@@ -121,9 +111,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Organization'
+                $ref: '#/components/schemas/OrganizationRs'
+        '404':
+          description: Organization not found
         '400':
-          description: Invalid status value
+          description: Invalid input
     delete:
       tags:
         - organization
@@ -139,7 +131,7 @@ paths:
             type: string
       responses:
         '400':
-          description: Invalid ID supplied
+          description: Invalid input
         '404':
           description: Organization not found
 
@@ -151,19 +143,19 @@ paths:
       description: Add a new employee
       operationId: addEmployee
       requestBody:
-        description: "Pet object that needs to be added to the store"
+        description: "Employee object that needs to be added"
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateEmployeeRq'
+              $ref: '#/components/schemas/EmployeeRq'
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Employee'
+                $ref: '#/components/schemas/EmployeeRs'
         '400':
           description: Invalid input
         '422':
@@ -182,7 +174,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Employee'
+                  $ref: '#/components/schemas/EmployeeRs'
         '404':
           description: Employees not found
     delete:
@@ -194,6 +186,7 @@ paths:
       responses:
         '404':
           description: Employees not found
+
   /api/v1/employee/{employeeId}:
     put:
       tags:
@@ -208,37 +201,20 @@ paths:
             type: string
           in: path
           required: true
-        - name: organizationId
-          description: Organization ID
-          schema:
-            type: string
-          in: query
-          required: true
-        - name: firstName
-          description: Employee first name
-          schema:
-            type: string
-          in: query
-          required: true
-        - name: lastName
-          description: Employee last name
-          schema:
-            type: string
-          in: query
-          required: true
-        - name: jobTitle
-          description: Job Title of Employee
-          schema:
-            type: string
-          in: query
-          required: true
+      requestBody:
+        description: "Employee object that needs to be updated"
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmployeeRq'
       responses:
         '200':
           description: Successful operation
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Employee'
+                $ref: '#/components/schemas/EmployeeRs'
         '400':
           description: Invalid input
         '422':
@@ -262,7 +238,9 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Employee'
+                $ref: '#/components/schemas/EmployeeRs'
+        '400':
+          description: Invalid input
         '404':
           description: Employee not found
     delete:
@@ -279,12 +257,24 @@ paths:
           in: path
           required: true
       responses:
+        '400':
+          description: Invalid input
         '404':
           description: Employee not found
 
 components:
   schemas:
-    Organization:
+    OrganizationRq:
+      type: object
+      properties:
+        organizationName:
+          type: string
+          nullable: false
+          description: Organization Name
+          example: HHCorp
+      required:
+        - organizationName
+    OrganizationRs:
       type: object
       properties:
         id:
@@ -299,10 +289,10 @@ components:
         employees:
           type: array
           items:
-            $ref: '#/components/schemas/Employee'
+            $ref: '#/components/schemas/EmployeeRs'
       required:
         - organizationName
-    CreateEmployeeRq:
+    EmployeeRq:
       type: object
       properties:
         organizationId:
@@ -326,7 +316,7 @@ components:
         - firstName
         - lastName
         - jobTitle
-    Employee:
+    EmployeeRs:
       type: object
       properties:
         id:
