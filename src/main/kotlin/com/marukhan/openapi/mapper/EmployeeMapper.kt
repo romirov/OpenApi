@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service
 class EmployeeMapper(
 	val organizationRepository: OrganizationRepository
 ) : OpenApiIdMapper() {
-	fun fromDto(employee: EmployeeRq, organizationEntity: OrganizationEntity): EmployeeEntity {
-		val firstName = employee.firstName
-		val lastName = employee.lastName
-		val jobTitle = employee.jobTitle
+	fun fromDto(employeeRq: EmployeeRq, organizationEntity: OrganizationEntity): EmployeeEntity {
+		val firstName = employeeRq.firstName
+		val lastName = employeeRq.lastName
+		val jobTitle = employeeRq.jobTitle
 
 		return EmployeeEntity(
 			organization = organizationEntity,
@@ -24,11 +24,13 @@ class EmployeeMapper(
 		)
 	}
 
-	fun toDto(employee: EmployeeEntity): EmployeeRs = EmployeeRs(
-		id = uuidToString(employee.id),
-		organizationId = employee.id.toString(),
-		firstName = employee.firstName,
-		lastName = employee.lastName,
-		jobTitle = employee.jobTitle
-	)
+	fun toDto(employeeEntity: EmployeeEntity): EmployeeRs = with(employeeEntity) {
+		EmployeeRs(
+			id = uuidToString(id),
+			organizationId = id.toString(),
+			firstName = firstName,
+			lastName = lastName,
+			jobTitle = jobTitle
+		)
+	}
 }
