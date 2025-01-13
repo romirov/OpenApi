@@ -224,7 +224,7 @@ paths:
         - employee
       summary: Get an employee by ID
       description: Get an employee by ID
-      operationId: getEmployee
+      operationId: getEmployeeById
       parameters:
         - name: employeeId
           description: Employee ID
@@ -248,7 +248,7 @@ paths:
         - employee
       summary: Delete an employee by ID
       description: Delete an employee by ID
-      operationId: deleteEmployee
+      operationId: deleteEmployeeById
       parameters:
         - name: employeeId
           description: Employee ID

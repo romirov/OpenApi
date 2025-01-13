@@ -18,24 +18,24 @@ class EmployeeController : EmployeeApi {
 			employeeService.save(employeeRq)
 		)
 
-	override fun deleteEmployee(employeeId: String): ResponseEntity<Unit> =
-		ResponseEntity.ok(
-			employeeService.deleteById(employeeId)
-		)
-
 	override fun updateEmployeeById(employeeId: String, employeeRq: EmployeeRq): ResponseEntity<EmployeeRs> =
 		ResponseEntity.ok(
 			employeeService.update(employeeId, employeeRq)
 		)
 
+	override fun getEmployeeById(employeeId: String): ResponseEntity<EmployeeRs> =
+		ResponseEntity.ok(
+			employeeService.findById(employeeId)
+		)
+
+	override fun deleteEmployeeById(employeeId: String): ResponseEntity<Unit> =
+		ResponseEntity.ok(
+			employeeService.deleteById(employeeId)
+		)
+
 	override fun deleteEmployees(): ResponseEntity<Unit> =
 		ResponseEntity.ok(
 			employeeService.deleteAll()
-		)
-
-	override fun getEmployee(employeeId: String): ResponseEntity<EmployeeRs> =
-		ResponseEntity.ok(
-			employeeService.findById(employeeId)
 		)
 
 	override fun getEmployees(): ResponseEntity<List<EmployeeRs>> =
